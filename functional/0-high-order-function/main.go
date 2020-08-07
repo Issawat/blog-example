@@ -9,12 +9,12 @@ type wordCondition func(string) bool
 func main() {
 	groupA := words{"the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"}
 
-	conditionA := anyConditions([]wordCondition{
-		sameWordAt("over"),
+	conditionA := anyCondition([]wordCondition{
+		isSameWordAt("over"),
 		haveOddCharacter,
 	})
 
-	conditionB := allConditions([]wordCondition{
+	conditionB := allCondition([]wordCondition{
 		haveAlphabet,
 		haveEvenCharacter,
 	})
@@ -26,7 +26,7 @@ func main() {
 	fmt.Printf("Condition B: %+v\n", wordFilterBBy(groupA))
 }
 
-func anyConditions(conditions []wordCondition) wordCondition {
+func anyCondition(conditions []wordCondition) wordCondition {
 	return func(word string) bool {
 		for _, c := range conditions {
 			if c(word) {
@@ -37,7 +37,7 @@ func anyConditions(conditions []wordCondition) wordCondition {
 	}
 }
 
-func allConditions(conditions []wordCondition) wordCondition {
+func allCondition(conditions []wordCondition) wordCondition {
 	return func(word string) bool {
 		for _, c := range conditions {
 			if !c(word) {
@@ -77,7 +77,7 @@ func haveOddCharacter(word string) bool {
 	return len(word)%2 != 0
 }
 
-func sameWordAt(wordCondition string) wordCondition {
+func isSameWordAt(wordCondition string) wordCondition {
 	return func(word string) bool {
 		return wordCondition == word
 	}
